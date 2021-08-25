@@ -12,6 +12,4 @@ jobs:
       - run: pwd
       - run: ls
 
-
-workflows:
-  build: 
+#workflowでテスト通ったらビルドとか設定できる??
