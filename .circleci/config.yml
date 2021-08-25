@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
     #使用するdockerイメージ
-      - image: cystdot/ubuntu:latest
+      - image: cystdot/ubuntu:circleci
     working_directory: ~/workspace/spring-demo-gradle
     #処理内容
     steps:
@@ -11,3 +11,7 @@ jobs:
       - run: echo "start testing..."
       - run: pwd
       - run: ls
+
+
+workflows:
+  build: 
