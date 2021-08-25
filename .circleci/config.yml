@@ -4,7 +4,7 @@ jobs:
     docker:
     #使用するdockerイメージ
       - image: cystdot/ubuntu:latest
-    working_directory: ~/workspace
+    working_directory: ~/workspace/spring-demo-gradle
     #処理内容
     steps:
       - run: echo "my ubuntu image was run!!"
