@@ -7,7 +7,7 @@ jobs:
     working_directory: ~/workspace
     #処理内容
     steps:
-      - checkout
       - run: echo "my ubuntu image was run!!"
       - run: echo "start testing..."
       - run: pwd
+      - run: ls
