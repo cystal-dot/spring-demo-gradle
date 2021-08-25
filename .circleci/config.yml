@@ -2,6 +2,6 @@ version:  2.1
 jobs:
   build:
     docker:
-      -image: cystdot/ubuntu:latest
+      - image: cystdot/ubuntu
     steps:
       - run: echo "my ubuntu image was run!!"
