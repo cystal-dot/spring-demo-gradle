@@ -4,12 +4,20 @@ jobs:
     docker:
     #使用するdockerイメージ
       - image: cystdot/ubuntu:circleci
-    working_directory: ~/workspace/spring-demo-gradle
+    working_directory: ~/workspace
     #処理内容
     steps:
-      - run: echo "my ubuntu image was run!!"
-      - run: echo "start testing..."
-      - run: pwd
-      - run: ls
+      - run: docker pull cystdot/ubuntu:circleci
+      - run: docker run --name citesting -it cystdot/ubuntu:circleci
+      - run: cd ~/workspace
+      - run: rm -rf spring-demo-gradle
+      - run: git clone https://github.com/cystal-dot/spring-demo-gradle.git
+      - run: exit
+      - run: docker commit citesting cystdot/ubuntu:circleci
+      - run: docker push cystdot/ubuntu:circleci
+      - run: docker stop citesting
+      - run: docker rm citesting
+      - run: docker rmi cystdot/ubuntu
 
 #workflowでテスト通ったらビルドとか設定できる??
+#テストケース書いてローカルでは通ったけどそれをymlでどう書くか調べ中
