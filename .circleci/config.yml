@@ -2,6 +2,11 @@ version:  2.1
 jobs:
   build:
     docker:
+    #使用するdockerイメージ
       - image: cystdot/ubuntu
+    working_directory: ~/workspace
+    #処理内容
     steps:
+      - checkout
       - run: echo "my ubuntu image was run!!"
+      - run: echo "start testing..."
