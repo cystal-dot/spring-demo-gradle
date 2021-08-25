@@ -10,3 +10,4 @@ jobs:
       - checkout
       - run: echo "my ubuntu image was run!!"
       - run: echo "start testing..."
+      - run: pwd
