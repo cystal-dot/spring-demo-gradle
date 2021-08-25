@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
     #使用するdockerイメージ
-      - image: cystdot/ubuntu
+      - image: cystdot/ubuntu:latest
     working_directory: ~/workspace
     #処理内容
     steps:
