@@ -11,6 +11,7 @@ jobs:
       - run: echo "start testing..."
       - run: pwd
       - run: ls
+      - run: echo "test"
 
 #workflowでテスト通ったらビルドとか設定できる??
 #流れ...prの内容を含むDocker imageをビルド→そのイメージを元にコンテナ起動→その内容を含むテスト実行→テスト通ったらOK
