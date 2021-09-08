@@ -4,15 +4,18 @@ jobs:
     docker:
     #使用するdockerイメージ
       - image: cystdot/ubuntu:circleci
+        auth:
+          username: cystdot
+          password: senuma211
+
     working_directory: ~/workspace/spring-demo-gradle
     #処理内容
     steps:
-      - run: echo "my ubuntu image was run!!"
-      - run: echo "start testing..."
-      - run: pwd
-      - run: ls
-      - run: echo "test"
-      - run: echo "aaa"
+      - run:
+          TAG=0.1.$CIRCLE_BUILD_NUM
+          docker build -t cystdot/ubuntu:circleci .
+          echo senuma211 | docker login -u cystdot --password-stdin
+          docker push cystdot/ubuntu:circleci
 
 #workflowでテスト通ったらビルドとか設定できる??
 #流れ...prの内容を含むDocker imageをビルド→そのイメージを元にコンテナ起動→その内容を含むテスト実行→テスト通ったらOK
