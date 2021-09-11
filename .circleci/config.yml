@@ -11,11 +11,10 @@ jobs:
     working_directory: ~/workspace/spring-demo-gradle
     #処理内容
     steps:
-      - run:
-          echo $pwd
-          docker build -t cystdot/ubuntu:circleci .
-          echo senuma211 | docker login -u cystdot --password-stdin
-          docker push cystdot/ubuntu:circleci
+      - run: echo $pwd
+      - run: docker build -t cystdot/ubuntu:circleci .
+      - run: echo senuma211 | docker login -u cystdot --password-stdin
+      - run: docker push cystdot/ubuntu:circleci
 
 #workflowでテスト通ったらビルドとか設定できる??
 #流れ...prの内容を含むDocker imageをビルド→そのイメージを元にコンテナ起動→その内容を含むテスト実行→テスト通ったらOK
