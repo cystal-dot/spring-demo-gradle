@@ -12,7 +12,8 @@ jobs:
     #処理内容
     steps:
       - run: pwd
-      - run: docker build -t cystdot/ubuntu:circleci .
+      - run: docker pull cystdot/ubuntu:circleci
+      - run: docker run --name circlecicontainer -it cystdot/ubuntu:circleci /bin/bash
       - run: echo senuma211 | docker login -u cystdot --password-stdin
       - run: docker push cystdot/ubuntu:circleci
 
