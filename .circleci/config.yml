@@ -4,9 +4,6 @@ jobs:
     docker:
     #使用するdockerイメージ
       - image: cystdot/circleci
-        auth:
-          username: cystdot
-          password: senuma211
 
     working_directory: ~/workspace/spring-demo-gradle
     #処理内容
@@ -20,7 +17,6 @@ jobs:
       - run: pwd
       - run: docker pull cystdot/ubuntu:circleci
       - run: docker run --name circlecicontainer -it cystdot/circleci /bin/bash
-      - run: echo senuma211 | docker login -u cystdot --password-stdin
       - run: docker push cystdot/ubuntu:circleci
 
 #workflowでテスト通ったらビルドとか設定できる??
