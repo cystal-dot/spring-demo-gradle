@@ -6,8 +6,6 @@ jobs:
       - image: cystdot/circleci
 
     working_directory: ~/workspace/spring-demo-gradle
-    #処理内容
 
-
-#workflowでテスト通ったらビルドとか設定できる??
-#流れ...prの内容を含むDocker imageをビルド→そのイメージを元にコンテナ起動→その内容を含むテスト実行→テスト通ったらOK
+    steps:
+      - run: echo enter circleci
