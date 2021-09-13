@@ -7,17 +7,7 @@ jobs:
 
     working_directory: ~/workspace/spring-demo-gradle
     #処理内容
-    steps:
 
-#setupしないとdockercommand使えない
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: true
-
-      - run: pwd
-      - run: docker pull cystdot/ubuntu:circleci
-      - run: docker run --name circlecicontainer -it cystdot/circleci /bin/bash
-      - run: docker push cystdot/ubuntu:circleci
 
 #workflowでテスト通ったらビルドとか設定できる??
 #流れ...prの内容を含むDocker imageをビルド→そのイメージを元にコンテナ起動→その内容を含むテスト実行→テスト通ったらOK
