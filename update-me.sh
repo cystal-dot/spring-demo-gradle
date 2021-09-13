@@ -5,7 +5,7 @@ echo entry docker container
 cd spring-demo-gradle
 
 echo start build gradle
-sudo build gradle
+gradle build
 echo finish build gradle
 
 echo exit from this container
