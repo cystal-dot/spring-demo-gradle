@@ -9,3 +9,4 @@ jobs:
 
     steps:
       - run: echo enter circleci
+      - run: echo this branch is to test aws
