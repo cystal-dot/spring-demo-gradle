@@ -2,6 +2,10 @@ version:  2.1
 jobs:
   build:
     docker:
-      - image: cystdot/ubuntu
+    #使用するdockerイメージ
+      - image: cystdot/circleci
+
+    working_directory: ~/workspace/spring-demo-gradle
+
     steps:
-      - run: echo "my ubuntu image was run!!"
+      - run: echo enter circleci
