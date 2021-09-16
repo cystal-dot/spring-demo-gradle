@@ -40,10 +40,10 @@ jobs:
         steps:
            - checkout
 
-           - restore_cache:
-               key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-           - restore_cache:
-               key: v1-gradle-cache-{{ checksum "build.gradle" }}
+        #    - restore_cache:
+        #        key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+        #    - restore_cache:
+        #        key: v1-gradle-cache-{{ checksum "build.gradle" }}
            - run:
                 # name: テストの並列実行 # https://circleci.com/ja/docs/2.0/parallelism-faster-jobs/ を参照してください
                 # テストを並列に実行しない場合は、代わりに「./gradlew test」を使用します
@@ -88,6 +88,6 @@ workflows:
         jobs:
             - test
             - deploy:
-                filters:
+                filters: 
                     branches:
                         only: main #テスト用.動いたらmain(productionに向ける)
