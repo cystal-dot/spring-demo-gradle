@@ -1,66 +1,109 @@
-version:  2.1
+# version:  2.1
+# jobs:
+#     # deploy: EC2 に SSH 接続して、デプロイを実行する
+#     deploy: 
+#         docker:
+#             - image: cystdot/ubuntu:ToExecSsh #imageの中に秘密鍵入ってるからだめ
+#               auth:
+#                 username: ${DOCKER_USER}
+#                 password: ${DOCKER_PASSWORD}
+#         steps:
+#             # CircleCI に登録した環境変数を使って SSH
+#             - run: ssh -i /.ssh/aws-network-test-key-latest.pem ${SSH_USER}@${SSH_HOST} 'sh deploy-me.sh'
+
+#     test:
+#         # docker:
+#         #     - image: cystdot/ubuntu:ToExecSsh #imageの中に秘密鍵入ってるからだめ
+#         #       auth:
+#         #         username: ${DOCKER_USER}
+#         #         password: ${DOCKER_PASSWORD}
+#         # steps:
+#         #     # CircleCI に登録した環境変数を使って SSH
+#         #     - run: ssh -i /.ssh/aws-network-test-key-latest.pem ${SSH_USER}@${SSH_HOST} 'sh gradletest.sh'
+#         docker:
+#           - image: circleci/openjdk:8-jdk #テスト用イメージ
+
+
+#         working_directory: ~/spring-demo-gradle
+
+#         environment:
+#           # Customize the JVM maximum heap limit
+#           JVM_OPTS: -Xmx3200m
+#           TERM: dumb
+
+#         steps:
+#            - run: ls 
+#            - run: pwd
+#            - checkout
+
+#            - restore_cache:
+#                keys:
+#                - v1-dependencies-{{ checksum "build.gradle.kts" }}
+#                - v1-dependencies-
+
+#            - run: gradle dependencies
+
+#            - save_cache:
+#                paths:
+#                   - ~/.gradle
+#                key: v1-dependencies-{{ checksum "build.gradle.kts" }}
+
+#            - run: gradle test
+
+#             #command: gradle test
+
+
+# workflows:
+#     version: 2
+#     # test_and_deploy ジョブ: 一番最初に呼ばれるジョブ
+#     test_and_deploy:
+#         # test ジョブと deploy ジョブを登録する
+#         jobs:
+#             - test
+#             - deploy:
+#                 filters: 
+#                     branches:
+#                         only: main #テスト用.動いたらmain(productionに向ける)
+
+# Java Gradle CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
 jobs:
-    # deploy: EC2 に SSH 接続して、デプロイを実行する
-    deploy: 
-        docker:
-            - image: cystdot/ubuntu:ToExecSsh #imageの中に秘密鍵入ってるからだめ
-              auth:
-                username: ${DOCKER_USER}
-                password: ${DOCKER_PASSWORD}
-        steps:
-            # CircleCI に登録した環境変数を使って SSH
-            - run: ssh -i /.ssh/aws-network-test-key-latest.pem ${SSH_USER}@${SSH_HOST} 'sh deploy-me.sh'
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
 
-    test:
-        # docker:
-        #     - image: cystdot/ubuntu:ToExecSsh #imageの中に秘密鍵入ってるからだめ
-        #       auth:
-        #         username: ${DOCKER_USER}
-        #         password: ${DOCKER_PASSWORD}
-        # steps:
-        #     # CircleCI に登録した環境変数を使って SSH
-        #     - run: ssh -i /.ssh/aws-network-test-key-latest.pem ${SSH_USER}@${SSH_HOST} 'sh gradletest.sh'
-        docker:
-          - image: circleci/openjdk:8-jdk #テスト用イメージ
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
 
+    working_directory: ~/repo
 
-        working_directory: ~/spring-demo-gradle
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
 
-        environment:
-          # Customize the JVM maximum heap limit
-          JVM_OPTS: -Xmx3200m
-          TERM: dumb
+    steps:
+      - checkout
 
-        steps:
-           - run: ls 
-           - run: pwd
-           - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle.kts" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
-           - restore_cache:
-               keys:
-               - v1-dependencies-{{ checksum "build.gradle.kts" }}
-               - v1-dependencies-
+      - run: gradle dependencies
 
-           - run: gradle dependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle.kts" }}
 
-           - save_cache:
-               paths:
-                  - ~/.gradle
-               key: v1-dependencies-{{ checksum "build.gradle.kts" }}
-
-           - run: gradle test
-
-            #command: gradle test
-
-
-workflows:
-    version: 2
-    # test_and_deploy ジョブ: 一番最初に呼ばれるジョブ
-    test_and_deploy:
-        # test ジョブと deploy ジョブを登録する
-        jobs:
-            - test
-            - deploy:
-                filters: 
-                    branches:
-                        only: main #テスト用.動いたらmain(productionに向ける)
+      # run tests!
+      - run: gradle test
