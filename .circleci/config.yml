@@ -12,15 +12,61 @@ jobs:
             - run: ssh -i /.ssh/aws-network-test-key-latest.pem ${SSH_USER}@${SSH_HOST} 'sh deploy-me.sh'
 
     test:
+        # docker:
+        #     - image: cystdot/ubuntu:ToExecSsh #imageの中に秘密鍵入ってるからだめ
+        #       auth:
+        #         username: ${DOCKER_USER}
+        #         password: ${DOCKER_PASSWORD}
+        # steps:
+        #     # CircleCI に登録した環境変数を使って SSH
+        #     - run: ssh -i /.ssh/aws-network-test-key-latest.pem ${SSH_USER}@${SSH_HOST} 'sh gradletest.sh'
+        parallelism: 2
+        environment:
+          _JAVA_OPTIONS: "-Xmx3g"
+          GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
         docker:
-            - image: cystdot/circleci:totest
+          - image: circleci/openjdk:11.0.3-jdk-stretch #テスト用イメージ
+
         steps:
-            - run: pwd
-            - run: ls
-            - run: cd spring-demo-gradle
-            - run: pwd
-            - run: gradle test
-            - run: echo "unko"
+           - checkout
+
+           - restore_cache:
+               key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+           - restore_cache:
+               key: v1-gradle-cache-{{ checksum "build.gradle" }}
+           - run:
+                name: テストの並列実行 # https://circleci.com/ja/docs/2.0/parallelism-faster-jobs/ を参照してください
+                # テストを並列に実行しない場合は、代わりに「./gradlew test」を使用します
+                command: |
+                    cd src/test/java
+                    CLASSNAMES=$(circleci tests glob "**/*.java" \
+                        | cut -c 1- | sed 's@/@.@g' \
+                        | sed 's/.\{5\}$//' \
+                        | circleci tests split --split-by=timings --timings-type=classname)
+                    cd ../../..
+                    GRADLE_ARGS=$(echo $CLASSNAMES | awk '{for (i=1; i<=NF; i++) print "--tests",$i}')
+                    echo "Prepared arguments for Gradle: $GRADLE_ARGS"
+                    ./gradlew test $GRADLE_ARGS
+           - save_cache:
+               paths:
+                 - ~/.gradle/wrapper
+               key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+           - save_cache:
+               paths:
+                 - ~/.gradle/caches
+               key: v1-gradle-cache-{{ checksum "build.gradle" }}
+           - store_test_results:
+                path: build/test-results-test
+                when: always
+           - run:
+               name: JARの収集
+               command: |
+                if [ "$CIRCLE_NODE_INDEX" == 0 ]; then
+                    ./gradlew assemble
+                fi
+           - store_artifacts:
+               path: build/libs 
+
 
 workflows:
     version: 2
