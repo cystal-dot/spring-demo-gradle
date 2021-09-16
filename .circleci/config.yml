@@ -1,34 +1,32 @@
 version:  2.1
 jobs:
-    # deploy ジョブ: EC2 に SSH 接続して、デプロイを実行する
+    # deploy: EC2 に SSH 接続して、デプロイを実行する
     deploy: 
-        # machine:
-        #     image: circleci/classic:edge
         docker:
             - image: cystdot/ubuntu:ToExecSsh
               auth:
                 username: ${DOCKER_USER}
                 password: ${DOCKER_PASSWORD}
         steps:
-#            - checkout
-            # CircleCI に登録した秘密鍵を呼び出す
-#            - aws-network-test-key-agent:
             # CircleCI に登録した環境変数を使って SSH
             - run: ssh -i /.ssh/aws-network-test-key-latest.pem ${SSH_USER}@${SSH_HOST} 'sh deploy-me.sh'
+
+    test:
+        docker:
+            - image: cystdot/circleci
+        steps:
+            - run: pwd
+            - run: echo "unko" 
 
 
 workflows:
     version: 2
-    # build_and_deploy ジョブ: 一番最初に呼ばれるジョブ
-    deploy:
-        # build ジョブと deploy ジョブを登録する
+    # test_and_deploy ジョブ: 一番最初に呼ばれるジョブ
+    test_and_deploy:
+        # test ジョブと deploy ジョブを登録する
         jobs:
-#            - build
+            - test
             - deploy:
-#                requires:
-                    # 依存性あるから deploy ジョブより先に build ジョブを実行してね、という命令
-#                    - build
-                # main ブランチに push された場合のみ deploy ジョブを実行する(mainにマージされたときに変えたい)
                 filters:
                     branches:
-                        only: to-test-circleci-aws #テスト用.動いたらmain(productionに向ける) 
+                        only: main #テスト用.動いたらmain(productionに向ける)
