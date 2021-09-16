@@ -25,59 +25,33 @@ jobs:
           _JAVA_OPTIONS: "-Xmx3g"
           GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
         docker:
-          - image: circleci/openjdk:11.0.3-jdk-stretch #テスト用イメージ
-            auth:
-              username: ${DOCKER_USER}
-              password: ${DOCKER_PASSWORD}
-          - image: circleci/postgres:12-alpine
-            auth:
-              username: ${DOCKER_USER}
-              password: ${DOCKER_PASSWORD}
-            environment:
-              POSTGRES_USER: postgres
-              POSTGRES_DB: circle_test
+          - image: circleci/openjdk:8-jdk #テスト用イメージ
+
+        working_directory: ~/spring-demo-gradle
+
+        environment:
+          # Customize the JVM maximum heap limit
+          JVM_OPTS: -Xmx3200m
+          TERM: dumb
 
         steps:
            - checkout
 
-        #    - restore_cache:
-        #        key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-        #    - restore_cache:
-        #        key: v1-gradle-cache-{{ checksum "build.gradle" }}
-           - run:
-                # name: テストの並列実行 # https://circleci.com/ja/docs/2.0/parallelism-faster-jobs/ を参照してください
-                # テストを並列に実行しない場合は、代わりに「./gradlew test」を使用します
-                # command: |
-                #     cd src/test/java
-                #     CLASSNAMES=$(circleci tests glob "**/*.java" \
-                #         | cut -c 1- | sed 's@/@.@g' \
-                #         | sed 's/.\{5\}$//' \
-                #         | circleci tests split --split-by=timings --timings-type=classname)
-                #     cd ../../..
-                #     GRADLE_ARGS=$(echo $CLASSNAMES | awk '{for (i=1; i<=NF; i++) print "--tests",$i}')
-                #     echo "Prepared arguments for Gradle: $GRADLE_ARGS"
-                #     pwd
-                #     sudo ./gradlew test #$GRADLE_ARGS
-                command: gradle test
-        #    - save_cache:
-        #        paths:
-        #          - ~/.gradle/wrapper
-        #        key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-        #    - save_cache:
-        #        paths:
-        #          - ~/.gradle/caches
-        #        key: v1-gradle-cache-{{ checksum "build.gradle" }}
-        #    - store_test_results:
-        #         path: build/libs
-        #         when: always
-        #    - run:
-        #        name: JARの収集
-        #        command: |
-        #         if [ "$CIRCLE_NODE_INDEX" == 0 ]; then
-        #             ./gradlew assemble
-        #         fi
-        #    - store_artifacts:
-        #        path: ~/ 
+           - restore_cache:
+               keys:
+               - v1-dependencies-{{ checksum "build.gradle.kts" }}
+               - v1-dependencies-
+
+           - run: gradle dependencies
+
+           - save_cache:
+               paths:
+                  - ~/.gradle
+               key: v1-dependencies-{{ checksum "build.gradle.kts" }}
+
+           - run: gradle test
+
+            #command: gradle test
 
 
 workflows:
