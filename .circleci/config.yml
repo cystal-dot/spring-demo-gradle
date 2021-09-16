@@ -17,7 +17,9 @@ jobs:
         steps:
             - run: pwd
             - run: ls
-            - run: echo "unko" 
+            - run: cd spring-demo-gradle
+            - run: gradle test
+            - run: echo "unko"
 
 
 workflows:
