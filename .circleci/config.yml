@@ -5,7 +5,10 @@ jobs:
         # machine:
         #     image: circleci/classic:edge
         docker:
-            - image: cystdot/ubuntu:latest
+            - image: cystdot/ubuntu:ToExecSsh
+              auth:
+                username: ${DOCKER_USER}
+                password: ${DOCKER_PASSWORD}
         steps:
 #            - checkout
             # CircleCI に登録した秘密鍵を呼び出す
