@@ -48,14 +48,14 @@ jobs:
                 name: テストの並列実行 # https://circleci.com/ja/docs/2.0/parallelism-faster-jobs/ を参照してください
                 # テストを並列に実行しない場合は、代わりに「./gradlew test」を使用します
                 command: |
-                    # cd src/test/java
-                    # CLASSNAMES=$(circleci tests glob "**/*.java" \
-                    #     | cut -c 1- | sed 's@/@.@g' \
-                    #     | sed 's/.\{5\}$//' \
-                    #     | circleci tests split --split-by=timings --timings-type=classname)
-                    # cd ../../..
-                    # GRADLE_ARGS=$(echo $CLASSNAMES | awk '{for (i=1; i<=NF; i++) print "--tests",$i}')
-                    # echo "Prepared arguments for Gradle: $GRADLE_ARGS"
+                    cd src/test/java
+                    CLASSNAMES=$(circleci tests glob "**/*.java" \
+                        | cut -c 1- | sed 's@/@.@g' \
+                        | sed 's/.\{5\}$//' \
+                        | circleci tests split --split-by=timings --timings-type=classname)
+                    cd ../../..
+                    GRADLE_ARGS=$(echo $CLASSNAMES | awk '{for (i=1; i<=NF; i++) print "--tests",$i}')
+                    echo "Prepared arguments for Gradle: $GRADLE_ARGS"
                     ./gradlew test #$GRADLE_ARGS
            - save_cache:
                paths:
