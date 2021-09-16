@@ -14,7 +14,7 @@ jobs:
             # CircleCI に登録した秘密鍵を呼び出す
 #            - aws-network-test-key-agent:
             # CircleCI に登録した環境変数を使って SSH
-            - run: ssh -i .ssh/aws-network-test-key-latest.pem ${SSH_USER}@${SSH_HOST} 'sh deploy-me.sh'
+            - run: ssh -i /.ssh/aws-network-test-key-latest.pem ${SSH_USER}@${SSH_HOST} 'sh deploy-me.sh'
 
 
 workflows:
