@@ -1,7 +1,7 @@
 version:  2.1
 jobs:
     # deploy ジョブ: EC2 に SSH 接続して、デプロイを実行する
-    deploy:
+    deploy: 
         # machine:
         #     image: circleci/classic:edge
         docker:
