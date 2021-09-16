@@ -33,6 +33,7 @@ jobs:
 
         steps:
            - run: ls 
+           - run: pwd
            - checkout
 
            - restore_cache:
