@@ -58,7 +58,7 @@ jobs:
                 #     echo "Prepared arguments for Gradle: $GRADLE_ARGS"
                 #     pwd
                 #     sudo ./gradlew test #$GRADLE_ARGS
-                command:  gradle test
+                command: gradle test
            - save_cache:
                paths:
                  - ~/.gradle/wrapper
@@ -77,7 +77,7 @@ jobs:
                     ./gradlew assemble
                 fi
            - store_artifacts:
-               path: build/libs 
+               path: ~/
 
 
 workflows:
