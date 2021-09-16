@@ -2,8 +2,10 @@ version:  2.1
 jobs:
     # deploy ジョブ: EC2 に SSH 接続して、デプロイを実行する
     deploy:
-        machine:
-            image: circleci/classic:edge
+        # machine:
+        #     image: circleci/classic:edge
+        docker:
+            - image: cystdot/ubuntu:latest
         steps:
 #            - checkout
             # CircleCI に登録した秘密鍵を呼び出す
