@@ -45,7 +45,7 @@ jobs:
            - restore_cache:
                key: v1-gradle-cache-{{ checksum "build.gradle" }}
            - run:
-                name: テストの並列実行 # https://circleci.com/ja/docs/2.0/parallelism-faster-jobs/ を参照してください
+                # name: テストの並列実行 # https://circleci.com/ja/docs/2.0/parallelism-faster-jobs/ を参照してください
                 # テストを並列に実行しない場合は、代わりに「./gradlew test」を使用します
                 # command: |
                 #     cd src/test/java
@@ -59,25 +59,25 @@ jobs:
                 #     pwd
                 #     sudo ./gradlew test #$GRADLE_ARGS
                 command: gradle test
-           - save_cache:
-               paths:
-                 - ~/.gradle/wrapper
-               key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-           - save_cache:
-               paths:
-                 - ~/.gradle/caches
-               key: v1-gradle-cache-{{ checksum "build.gradle" }}
-           - store_test_results:
-                path: build/libs
-                when: always
-           - run:
-               name: JARの収集
-               command: |
-                if [ "$CIRCLE_NODE_INDEX" == 0 ]; then
-                    ./gradlew assemble
-                fi
-           - store_artifacts:
-               path: ~/
+        #    - save_cache:
+        #        paths:
+        #          - ~/.gradle/wrapper
+        #        key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+        #    - save_cache:
+        #        paths:
+        #          - ~/.gradle/caches
+        #        key: v1-gradle-cache-{{ checksum "build.gradle" }}
+        #    - store_test_results:
+        #         path: build/libs
+        #         when: always
+        #    - run:
+        #        name: JARの収集
+        #        command: |
+        #         if [ "$CIRCLE_NODE_INDEX" == 0 ]; then
+        #             ./gradlew assemble
+        #         fi
+        #    - store_artifacts:
+        #        path: ~/
 
 
 workflows:
