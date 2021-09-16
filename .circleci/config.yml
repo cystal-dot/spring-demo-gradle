@@ -31,4 +31,4 @@ workflows:
                 # main ブランチに push された場合のみ deploy ジョブを実行する(mainにマージされたときに変えたい)
                 filters:
                     branches:
-                        only: to-test-circleci-aws #テスト用.動いたらmain(productionに向ける)
+                        only: to-test-circleci-aws #テスト用.動いたらmain(productionに向ける) 
