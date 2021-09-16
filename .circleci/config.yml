@@ -3,7 +3,7 @@ jobs:
     # deploy ジョブ: EC2 に SSH 接続して、デプロイを実行する
     deploy:
         machine:
-            image: cystdot/ubuntu
+            image: circleci/classic:edge
         steps:
 #            - checkout
             # CircleCI に登録した秘密鍵を呼び出す
