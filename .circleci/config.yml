@@ -56,7 +56,7 @@ jobs:
                     cd ../../..
                     GRADLE_ARGS=$(echo $CLASSNAMES | awk '{for (i=1; i<=NF; i++) print "--tests",$i}')
                     echo "Prepared arguments for Gradle: $GRADLE_ARGS"
-                    ./gradlew test #$GRADLE_ARGS
+                    sudo ./gradlew test #$GRADLE_ARGS
            - save_cache:
                paths:
                  - ~/.gradle/wrapper
