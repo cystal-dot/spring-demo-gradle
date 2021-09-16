@@ -23,7 +23,6 @@ jobs:
         docker:
           - image: circleci/openjdk:8-jdk #テスト用イメージ
 
-        run: ls
 
         working_directory: ~/spring-demo-gradle
 
@@ -33,6 +32,7 @@ jobs:
           TERM: dumb
 
         steps:
+           - run: ls 
            - checkout
 
            - restore_cache:
