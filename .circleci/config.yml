@@ -18,9 +18,8 @@ jobs:
             - run: pwd
             - run: ls
             - run: cd spring-demo-gradle
-            - run: gradle test
+            - run: ./gradlew test
             - run: echo "unko"
-
 
 workflows:
     version: 2
