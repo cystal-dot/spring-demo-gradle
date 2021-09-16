@@ -3,7 +3,7 @@ jobs:
     # deploy: EC2 に SSH 接続して、デプロイを実行する
     deploy: 
         docker:
-            - image: cystdot/ubuntu:ToExecSsh
+            - image: cystdot/ubuntu:ToExecSsh #imageの中に秘密鍵入ってるからだめ
               auth:
                 username: ${DOCKER_USER}
                 password: ${DOCKER_PASSWORD}
@@ -13,12 +13,13 @@ jobs:
 
     test:
         docker:
-            - image: cystdot/circleci
+            - image: cystdot/circleci:totest
         steps:
             - run: pwd
             - run: ls
             - run: cd spring-demo-gradle
-            - run: ./gradlew test
+            - run: pwd
+            - run: gradle test
             - run: echo "unko"
 
 workflows:
