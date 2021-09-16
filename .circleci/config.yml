@@ -1,20 +1,11 @@
 version:  2.1
 jobs:
-    # build ジョブ: CircleCI 上で Docker コンテナを作成してテストする
-    build:
-        docker:
-            - image: cystdot/circleci
-        steps:
-            - checkout
-            - run:
-                name: Echo Test
-                command: echo "CircleCI Test"
     # deploy ジョブ: EC2 に SSH 接続して、デプロイを実行する
     deploy:
         machine:
             image: circleci/classic:edge
         steps:
-            - checkout
+#            - checkout
             # CircleCI に登録した秘密鍵を呼び出す
 #            - aws-network-test-key-agent:
             # CircleCI に登録した環境変数を使って SSH
@@ -24,14 +15,14 @@ jobs:
 workflows:
     version: 2
     # build_and_deploy ジョブ: 一番最初に呼ばれるジョブ
-    build_and_deploy:
+    deploy:
         # build ジョブと deploy ジョブを登録する
         jobs:
-            - build
+#            - build
             - deploy:
-                requires:
+#                requires:
                     # 依存性あるから deploy ジョブより先に build ジョブを実行してね、という命令
-                    - build
+#                    - build
                 # main ブランチに push された場合のみ deploy ジョブを実行する(mainにマージされたときに変えたい)
                 filters:
                     branches:
