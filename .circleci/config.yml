@@ -53,7 +53,7 @@ jobs:
                         | cut -c 1- | sed 's@/@.@g' \
                         | sed 's/.\{5\}$//' \
                         | circleci tests split --split-by=timings --timings-type=classname)
-                    cd ../../..
+                    cd ../..
                     GRADLE_ARGS=$(echo $CLASSNAMES | awk '{for (i=1; i<=NF; i++) print "--tests",$i}')
                     echo "Prepared arguments for Gradle: $GRADLE_ARGS"
                     pwd
