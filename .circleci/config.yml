@@ -3,13 +3,13 @@ jobs:
     # deploy ジョブ: EC2 に SSH 接続して、デプロイを実行する
     deploy:
         machine:
-            image: circleci/classic:edge
+            image: cystdot/ubuntu
         steps:
 #            - checkout
             # CircleCI に登録した秘密鍵を呼び出す
 #            - aws-network-test-key-agent:
             # CircleCI に登録した環境変数を使って SSH
-            - run: ssh ${SSH_USER}@${SSH_HOST} 'sh deploy-me.sh'
+            - run: ssh -i ${SSH_KEY} ${SSH_USER}@${SSH_HOST} 'sh deploy-me.sh'
 
 
 workflows:
