@@ -16,6 +16,7 @@ jobs:
             - image: cystdot/circleci
         steps:
             - run: pwd
+            - run: ls
             - run: echo "unko" 
 
 
