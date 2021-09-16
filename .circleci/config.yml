@@ -20,10 +20,6 @@ jobs:
         # steps:
         #     # CircleCI に登録した環境変数を使って SSH
         #     - run: ssh -i /.ssh/aws-network-test-key-latest.pem ${SSH_USER}@${SSH_HOST} 'sh gradletest.sh'
-        parallelism: 2
-        environment:
-          _JAVA_OPTIONS: "-Xmx3g"
-          GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
         docker:
           - image: circleci/openjdk:8-jdk #テスト用イメージ
 
