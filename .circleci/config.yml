@@ -43,7 +43,7 @@ workflows:
     version: 2
     # test_and_deploy ジョブ:テストは常時行い、デプロイはmainに向けられたときのみ行う
     test_and_deploy:
-        # test ジョブと deploy ジョブを登録する
+        # testジョブとdeployジョブを登録する
         jobs:
             - test
             - deploy:
