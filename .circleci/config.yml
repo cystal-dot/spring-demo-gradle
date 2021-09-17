@@ -1,5 +1,3 @@
-orbs:
-    gradle: circleci/gradle@6.8.1
 version:  2.1
 jobs:
     # deploy: EC2 に SSH 接続して、デプロイを実行する
