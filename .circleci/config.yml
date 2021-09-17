@@ -49,4 +49,4 @@ workflows:
             - deploy:
                 filters: 
                     branches:
-                        only: main #デプロイするのはmainブランチにプッシュされたときのみ
+                        only: master #デプロイするのはmainブランチにプッシュされたときのみ
