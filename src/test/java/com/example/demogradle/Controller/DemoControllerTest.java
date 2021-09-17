@@ -14,6 +14,6 @@ public class  DemoControllerTest{
     @Test
     public void indexの戻り値テスト() {
         String actual = target.index();
-        assertEquals("index",actual);
+        assertEquals("index",actual); 
     }
 }
