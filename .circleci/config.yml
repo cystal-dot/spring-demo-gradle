@@ -1,3 +1,5 @@
+orbs:
+    gradle: circleci/gradle@6.8.1
 version:  2.1
 jobs:
     # deploy: EC2 に SSH 接続して、デプロイを実行する
@@ -12,17 +14,8 @@ jobs:
             - run: ssh -i /.ssh/aws-network-test-key-latest.pem ${SSH_USER}@${SSH_HOST} 'sh deploy-me.sh'
 
     test:
-        # docker:
-        #     - image: cystdot/ubuntu:ToExecSsh #imageの中に秘密鍵入ってるからだめ
-        #       auth:
-        #         username: ${DOCKER_USER}
-        #         password: ${DOCKER_PASSWORD}
-        # steps:
-        #     # CircleCI に登録した環境変数を使って SSH
-        #     - run: ssh -i /.ssh/aws-network-test-key-latest.pem ${SSH_USER}@${SSH_HOST} 'sh gradletest.sh'
         docker:
-          - image: circleci/openjdk:11-jdk #テスト用イメージ
-
+          - image: cimg/openjdk:11.0.12 #テスト用イメージS
 
         working_directory: ~/spring-demo-gradle
 
