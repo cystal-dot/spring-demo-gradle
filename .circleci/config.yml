@@ -3,7 +3,7 @@ jobs:
     # deploy: EC2 に SSH 接続して、デプロイを実行する
     deploy: 
         docker:
-            - image: cystdot/ubuntu:ToExecSsh #imageの中に秘密鍵入ってるからだめ
+            - image: cystdot/ubuntu:ToExecSsh #imageの中に秘密鍵入ってるからprivateにしてある
               auth:
                 username: ${DOCKER_USER}
                 password: ${DOCKER_PASSWORD}
@@ -13,7 +13,7 @@ jobs:
 
     test:
         docker:
-          - image: cimg/openjdk:11.0.12 #テスト用イメージS
+          - image: cimg/openjdk:11.0.12 #テスト用イメージ
 
         working_directory: ~/spring-demo-gradle
 
@@ -23,8 +23,6 @@ jobs:
           TERM: dumb
 
         steps:
-           - run: ls 
-           - run: pwd
            - checkout
 
            - restore_cache:
@@ -41,12 +39,9 @@ jobs:
 
            - run: gradle test
 
-            #command: gradle test
-
-
 workflows:
     version: 2
-    # test_and_deploy ジョブ: 一番最初に呼ばれるジョブ
+    # test_and_deploy ジョブ:テストは常時行い、デプロイはmainに向けられたときのみ行う
     test_and_deploy:
         # test ジョブと deploy ジョブを登録する
         jobs:
@@ -54,4 +49,4 @@ workflows:
             - deploy:
                 filters: 
                     branches:
-                        only: main #テスト用.動いたらmain(productionに向ける)
+                        only: main #デプロイするのはmainブランチにプッシュされたときのみ
