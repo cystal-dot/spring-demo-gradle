@@ -5,3 +5,4 @@ spring-demo-gradle/bin/test/com/example/demogradle/
 .gradle/buildOutputCleanup/*
 build/
 /bin/ 
+.project
