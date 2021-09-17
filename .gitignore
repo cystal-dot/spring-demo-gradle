@@ -4,4 +4,4 @@ spring-demo-gradle/bin/test/com/example/demogradle/
 .gradle/
 .gradle/buildOutputCleanup/*
 build/
-/bin/
+/bin/ 
