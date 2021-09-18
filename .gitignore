@@ -5,3 +5,8 @@ spring-demo-gradle/bin/test/com/example/demogradle/
 .gradle/buildOutputCleanup/*
 build/
 /bin/ 
+.project
+.settings/org.eclipse.buildship.core.prefs
+.classpath
+bin/main/templates/index.html
+bin/main/templates/index.html
