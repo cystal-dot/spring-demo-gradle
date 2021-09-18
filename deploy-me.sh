@@ -11,6 +11,8 @@ docker stop production
 docker ps -aq | xargs docker rm
 docker images -aq | xargs docker rmi
 
+sh rmi.sh
+
 echo ----------------------------start build----------------------------
 chmod +x gradlew
 sudo ./gradlew build
