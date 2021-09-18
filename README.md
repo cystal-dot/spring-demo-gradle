@@ -15,7 +15,7 @@
     ↓
     masterブランチをpull。(testが通っていることは2番目のフローで確認済み)
     ↓
-    pullした内容でビルドし、作成するのdockerimageの中に実行ファイルをエントリーポイントとして配置する。その後dockerhubにpush。
+    pullした内容でビルドし、作成するdockerimageの中に実行ファイルをエントリーポイントとして配置する。その後dockerhubにpush。
     ↓
     アプリケーション起動。
 
