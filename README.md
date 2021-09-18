@@ -24,3 +24,17 @@
 インスタンスでは`deploy-me.sh`を実行している。
 
 circleci.ymlではcircleciに設定した環境変数を使っているため、プロジェクトごとに対応が必要。
+
+---
+シェルで実行する`rmi.sh`を書き忘れていたので記載。
+
+`rmi.sh`
+```console
+ids=$(docker images -q)
+childId=$(
+    for i in ${ids}; do
+    docker history $i | grep -q $1 && echo $i
+    done | sort -u
+    )
+docker rmi ${childId}
+```
