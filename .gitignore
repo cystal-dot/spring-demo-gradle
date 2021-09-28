@@ -9,3 +9,4 @@ build/
 .settings/org.eclipse.buildship.core.prefs
 .classpath
 bin/main/templates/*
+.vscode/launch.json
