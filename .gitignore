@@ -8,5 +8,5 @@ build/
 .project
 .settings/org.eclipse.buildship.core.prefs
 .classpath
-bin/main/templates/index.html
-bin/main/templates/index.html
+bin/main/templates/*
+.vscode/launch.json
